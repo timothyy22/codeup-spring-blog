@@ -1,7 +1,6 @@
 package edu.codeup.codeupspringblog.models;
 
 import jakarta.persistence.*;
-
 @Entity
 @Table(name = "blog_posts")
 public class BlogPost {
@@ -14,11 +13,9 @@ public class BlogPost {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String body;
 
-    public BlogPost(long id, String title, String body) {
-        this.id = id;
-        this.title = title;
-        this.body = body;
-    }
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public BlogPost(String title, String body) {
         this.title = title;
@@ -26,6 +23,19 @@ public class BlogPost {
     }
 
     public BlogPost() {
+    }
+
+    public BlogPost(String title, String body, User user) {
+        this.title = title;
+        this.body = body;
+        this.user = user;
+    }
+
+    public BlogPost(long id, String title, String body, User user) {
+        this.id = id;
+        this.title = title;
+        this.body = body;
+        this.user = user;
     }
 
     public long getId() {
@@ -50,5 +60,13 @@ public class BlogPost {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

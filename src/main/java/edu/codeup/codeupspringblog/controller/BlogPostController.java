@@ -1,7 +1,9 @@
 package edu.codeup.codeupspringblog.controller;
 
 import edu.codeup.codeupspringblog.models.BlogPost;
+import edu.codeup.codeupspringblog.models.User;
 import edu.codeup.codeupspringblog.repositories.BlogPostRepository;
+import edu.codeup.codeupspringblog.repositories.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,11 @@ import java.util.List;
 public class BlogPostController {
 
     private BlogPostRepository blogPostDao;
+    private UserRepository userDao;
 
-    public BlogPostController(BlogPostRepository blogPostDao) {
+    public BlogPostController(BlogPostRepository blogPostDao, UserRepository userDao) {
         this.blogPostDao = blogPostDao;
+        this.userDao = userDao;
     }
 
 //    private List<BlogPost> blogPostsList =  new ArrayList<>(Arrays.asList(
@@ -52,7 +56,9 @@ public class BlogPostController {
             @RequestParam("title") String title,
             @RequestParam("body") String body
     ) {
-        BlogPost newPost = new BlogPost(title, body);
+        // Hard Coded user SaintSteve
+        User hardCodedUser = userDao.findById(1L).get();
+        BlogPost newPost = new BlogPost(title, body, hardCodedUser);
         blogPostDao.save(newPost);
         return "redirect:/posts";
     }
