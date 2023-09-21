@@ -7,7 +7,7 @@
     <header th:replace="partials/partials :: header('Create a Post')"></header>
 
     <main class="container">
-        <form th:action="@{/posts/create}" th:method="POST" th:object="${post}">
+        <form th:action="@{|/posts/${post.id}/edit|}" th:method="POST" th:object="${blogPost}">
             <!--            input for title-->
             <input type="text" th:field="*{title}" name="title" placeholder="Title" class="form-control">
             <!--            input for body-->

@@ -10,21 +10,27 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(columnDefinition = "int(11) UNSIGNED")
-    private Long id;
+    private long id;
+
     @Column(unique = true)
     private String username;
+
     @Column(unique = true)
     private String email;
+
     @Column
     private String password;
 
-    public User(Long id, String username, String email, String password, List<BlogPost> blogPosts) {
-        this.id = id;
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
+    private List<BlogPost> blogPosts;
+
+    public User() {
+    }
+
+    public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.blogPosts = blogPosts;
     }
 
     public User(String username, String email, String password, List<BlogPost> blogPosts) {
@@ -34,37 +40,19 @@ public class User {
         this.blogPosts = blogPosts;
     }
 
-    public List<BlogPost> getBlogPosts() {
-
-        return blogPosts;
-    }
-
-    public void setBlogPosts(List<BlogPost> blogPosts) {
-        this.blogPosts = blogPosts;
-    }
-
-    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "user")
-    private List<BlogPost> blogPosts;
-
-
-    public User(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
-
-    public User(Long id, String username, String email, String password) {
+    public User(long id, String username, String email, String password, List<BlogPost> blogPosts) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.blogPosts = blogPosts;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -92,7 +80,12 @@ public class User {
         this.password = password;
     }
 
-    public User() {
+    public List<BlogPost> getBlogPosts() {
+        return blogPosts;
+    }
 
+    public void setBlogPosts(List<BlogPost> blogPosts) {
+        this.blogPosts = blogPosts;
     }
 }
+
